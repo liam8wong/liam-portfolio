@@ -1,0 +1,306 @@
+---
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const pagePath = Astro.url.pathname.startsWith(base)
+	? `/${Astro.url.pathname.slice(base.length)}`
+	: Astro.url.pathname;
+const currentPath = pagePath.replace(/\/+$/, "") || "/";
+const navigation = [
+	{ label: "Home", href: base, path: "/" },
+	{ label: "About me", href: `${base}about`, path: "/about" },
+	{ label: "Projects", href: `${base}projects`, path: "/projects" },
+	{ label: "Contact", href: `${base}contact`, path: "/contact" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#f5f4ef" />
+		<title>{title} — Liam Wong</title>
+	</head>
+	<body>
+		<div class="site-shell">
+			<header class="site-header">
+				<a class="wordmark" href={base} aria-label="Liam Wong home">
+					<span class="wordmark-mark" aria-hidden="true">L</span>
+					<span>Liam Wong</span>
+				</a>
+				<nav class="site-nav" aria-label="Main navigation">
+					{navigation.map((item) => (
+						<a
+							href={item.href}
+							class:list={["nav-link", { "is-active": currentPath === item.path }]}
+							aria-current={currentPath === item.path ? "page" : undefined}
+						>
+							{item.label}
+						</a>
+					))}
+				</nav>
+			</header>
+
+			<main>
+				<slot />
+			</main>
+
+			<footer class="site-footer">
+				<span>© {new Date().getFullYear()} Liam Wong</span>
+				<a href={`${base}contact`}>Say hello <span aria-hidden="true">↗</span></a>
+			</footer>
+		</div>
+	</body>
+</html>
+
+<style is:global>
+	@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+	:root {
+		font-family: "DM Sans", sans-serif;
+		color: #18251f;
+		background: #f5f4ef;
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-optical-sizing: auto;
+		font-weight: 400;
+		--ink: #18251f;
+		--muted: #6d756e;
+		--green: #c8f169;
+		--line: #dedfd6;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		min-width: 320px;
+		margin: 0;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:focus-visible {
+		outline: 3px solid #6f9d27;
+		outline-offset: 4px;
+	}
+
+	.site-shell {
+		width: min(1120px, calc(100% - 64px));
+		margin: 0 auto;
+	}
+
+	.site-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 92px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.wordmark {
+		display: inline-flex;
+		align-items: center;
+		gap: 11px;
+		font-family: Manrope, sans-serif;
+		font-size: 15px;
+		font-weight: 800;
+		letter-spacing: -0.04em;
+	}
+
+	.wordmark-mark {
+		display: grid;
+		width: 32px;
+		height: 32px;
+		place-items: center;
+		border-radius: 50%;
+		background: var(--green);
+		font-family: Manrope, sans-serif;
+		font-size: 16px;
+	}
+
+	.site-nav {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		padding: 5px;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		background: #fbfaf6;
+	}
+
+	.nav-link {
+		padding: 10px 15px;
+		border-radius: 999px;
+		color: var(--muted);
+		font-size: 13px;
+		font-weight: 600;
+		transition: color 160ms ease, background 160ms ease;
+	}
+
+	.nav-link:hover {
+		color: var(--ink);
+	}
+
+	.nav-link.is-active {
+		background: var(--ink);
+		color: #fff;
+	}
+
+	main {
+		min-height: calc(100vh - 164px);
+	}
+
+	.page-intro {
+		max-width: 760px;
+		padding: 94px 0 70px;
+	}
+
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		margin: 0 0 23px;
+		color: var(--muted);
+		font-family: "DM Mono", monospace;
+		font-size: 11px;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+	}
+
+	.eyebrow::before {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #84ad39;
+		content: "";
+	}
+
+	h1,
+	h2,
+	h3,
+	p {
+		margin-top: 0;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-family: Manrope, sans-serif;
+		letter-spacing: -0.06em;
+	}
+
+	h1 {
+		max-width: 850px;
+		margin-bottom: 24px;
+		font-size: clamp(48px, 8vw, 88px);
+		font-weight: 600;
+		line-height: 0.99;
+	}
+
+	h1 .highlight {
+		display: inline-block;
+		position: relative;
+		z-index: 0;
+		white-space: nowrap;
+	}
+
+	h1 .highlight::after {
+		position: absolute;
+		z-index: -1;
+		right: -7px;
+		bottom: 3px;
+		left: -7px;
+		height: 32%;
+		border-radius: 4px;
+		background: var(--green);
+		content: "";
+		transform: rotate(-1deg);
+	}
+
+	.lede {
+		max-width: 570px;
+		margin-bottom: 0;
+		color: var(--muted);
+		font-size: clamp(16px, 2vw, 19px);
+		line-height: 1.75;
+	}
+
+	.section-label {
+		margin: 0;
+		color: var(--muted);
+		font-family: "DM Mono", monospace;
+		font-size: 11px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.panel {
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		background: #fbfaf6;
+	}
+
+	.site-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 72px;
+		border-top: 1px solid var(--line);
+		color: var(--muted);
+		font-size: 12px;
+	}
+
+	.site-footer a {
+		color: var(--ink);
+		font-weight: 600;
+	}
+
+	.site-footer a span {
+		margin-left: 4px;
+	}
+
+	@media (max-width: 640px) {
+		.site-shell {
+			width: min(100% - 36px, 520px);
+		}
+
+		.site-header {
+			min-height: 78px;
+			flex-wrap: wrap;
+			gap: 16px;
+			padding: 18px 0 14px;
+		}
+
+		.site-nav {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		.nav-link {
+			padding: 9px 10px;
+			font-size: 12px;
+		}
+
+		.page-intro {
+			padding: 72px 0 52px;
+		}
+
+		.site-footer {
+			min-height: 64px;
+		}
+	}
+</style>

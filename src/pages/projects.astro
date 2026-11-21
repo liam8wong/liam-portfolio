@@ -1,0 +1,210 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+const base = import.meta.env.BASE_URL;
+---
+
+<SiteLayout
+	title="Projects"
+	description="A growing collection of Liam Wong's projects and experiments."
+>
+	<section class="page-intro">
+		<p class="eyebrow">Things I’ve made</p>
+		<h1>Selected <span class="highlight">projects.</span></h1>
+		<p class="lede">
+			A collection of work, experiments, and ideas. I’m getting the first project write-ups
+			ready—check back soon.
+		</p>
+	</section>
+
+	<section class="project-board" aria-label="Project collection">
+		<div class="project-board-header">
+			<p class="section-label">The project shelf</p>
+			<span class="project-count">01 / IN PROGRESS</span>
+		</div>
+		<div class="project-placeholder panel">
+			<div class="placeholder-art" aria-hidden="true">
+				<div class="placeholder-shape shape-back"></div>
+				<div class="placeholder-shape shape-front"></div>
+				<span>+</span>
+			</div>
+			<div class="placeholder-copy">
+				<span class="coming-soon">COMING SOON</span>
+				<h2>First project loading…</h2>
+				<p>
+					This is where I’ll share the process, the decisions, and the finished work.
+					For now, the portfolio is just getting started.
+				</p>
+			</div>
+			<span class="placeholder-index" aria-hidden="true">01</span>
+		</div>
+		<div class="project-footer">
+			<span>More work will find its way here.</span>
+			<a href={`${base}contact`}>Have a question? <span aria-hidden="true">↗</span></a>
+		</div>
+	</section>
+</SiteLayout>
+
+<style>
+	.page-intro {
+		padding-bottom: 37px;
+	}
+
+	.page-intro h1 {
+		font-size: clamp(54px, 8vw, 82px);
+	}
+
+	.project-board {
+		padding-bottom: 78px;
+	}
+
+	.project-board-header,
+	.project-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.project-board-header {
+		margin-bottom: 14px;
+	}
+
+	.project-count,
+	.coming-soon {
+		color: var(--muted);
+		font-family: "DM Mono", monospace;
+		font-size: 10px;
+		letter-spacing: 0.08em;
+	}
+
+	.project-placeholder {
+		display: grid;
+		grid-template-columns: minmax(180px, 0.8fr) 1.2fr 38px;
+		align-items: center;
+		gap: 40px;
+		min-height: 300px;
+		padding: 34px;
+	}
+
+	.placeholder-art {
+		position: relative;
+		display: grid;
+		width: 100%;
+		max-width: 240px;
+		aspect-ratio: 1.25;
+		place-items: center;
+		overflow: hidden;
+		border-radius: 12px;
+		background: #e9ebdf;
+	}
+
+	.placeholder-shape {
+		position: absolute;
+		width: 95px;
+		height: 95px;
+		border: 1px solid rgba(24, 37, 31, 0.34);
+		border-radius: 28px;
+		transform: rotate(24deg);
+	}
+
+	.shape-back {
+		margin: -28px 0 0 -25px;
+		background: #d7ddc5;
+	}
+
+	.shape-front {
+		margin: 23px 0 0 30px;
+		background: var(--green);
+	}
+
+	.placeholder-art > span {
+		position: absolute;
+		color: #526242;
+		font-size: 24px;
+	}
+
+	.placeholder-copy {
+		max-width: 490px;
+	}
+
+	.coming-soon {
+		display: inline-block;
+		padding: 7px 10px;
+		border-radius: 999px;
+		background: #eef0e8;
+		color: #68744f;
+	}
+
+	.placeholder-copy h2 {
+		margin: 17px 0 10px;
+		font-size: clamp(27px, 4vw, 38px);
+		font-weight: 600;
+	}
+
+	.placeholder-copy p,
+	.project-footer {
+		color: var(--muted);
+		font-size: 13px;
+		line-height: 1.7;
+	}
+
+	.placeholder-copy p {
+		max-width: 425px;
+		margin-bottom: 0;
+	}
+
+	.placeholder-index {
+		align-self: start;
+		color: #a4aa9c;
+		font-family: "DM Mono", monospace;
+		font-size: 12px;
+	}
+
+	.project-footer {
+		gap: 20px;
+		padding-top: 17px;
+	}
+
+	.project-footer a {
+		color: var(--ink);
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
+	.project-footer a span {
+		margin-left: 4px;
+		color: #718b48;
+	}
+
+	@media (max-width: 680px) {
+		.project-board {
+			padding-bottom: 52px;
+		}
+
+		.project-placeholder {
+			grid-template-columns: 1fr 25px;
+			gap: 20px;
+			padding: 22px;
+		}
+
+		.placeholder-art {
+			grid-column: 1 / -1;
+			max-width: none;
+			aspect-ratio: 1.8;
+		}
+
+		.placeholder-copy {
+			grid-column: 1;
+		}
+
+		.placeholder-index {
+			grid-column: 2;
+			grid-row: 2;
+		}
+
+		.project-footer {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: 5px;
+		}
+	}
+</style>
